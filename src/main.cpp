@@ -264,8 +264,8 @@ int main() {
     output(scanLimit);
 
 
-    for (int jj = 0; jj < 8; jj++) {
-        writeData[jj] = Alphabet[displayText[0]][jj];
+    for (int ii = 0; ii < 8; ii++) {
+        writeData[ii] = Alphabet[displayText[0]][ii];
     }
     countLetter++;
 
@@ -276,17 +276,16 @@ int main() {
         }
 
 
-        for (int jj = 0; jj < 8; jj++) {
+        for (int ii = 0; ii < 8; ii++) {
 
-            for (int ii = 0; ii < 8;
-                 ii++) {
+            for (int jj = 0; jj < 8; jj++) {
 
-                uint16_t writeData2 = ((ii + 1) << 8) | (writeData[ii] & 0xFF);
+                uint16_t writeData2 = ((jj + 1) << 8) | (writeData[jj] & 0xFF);
                 output(writeData2);
 
                 if (sizeof(displayText) / sizeof(displayText[0]) > 1) {
-                    writeData[ii] =
-                            (writeData[ii] << 1) | (((Alphabet[displayText[countLetter]][ii]) >> (8 - jj)) & 0x01);
+                    writeData[jj] =
+                            (writeData[jj] << 1) | (((Alphabet[displayText[countLetter]][jj]) >> (8 - ii)) & 0x01);
                 }
 
 
