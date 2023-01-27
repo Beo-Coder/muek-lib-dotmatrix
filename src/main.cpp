@@ -74,11 +74,28 @@
 #define _Dash 67
 #define _Heart 68
 
-#define scrollSpeed 100 //100 is good
-int displayText[] = {G, D, S, n1, _, I, n, f, o, r, m, a, t, i, k, _, i, s, t, _, c, o, o, l, _,
-                     _}; // text to display as array
-//int displayText[] = {_Underscore, _Dash};
+#define Ae 69
+#define ae 70
+#define Oe 71
+#define oe 72
+#define Ue 73
+#define ue 74
+
+
+
+//BEGIN OF CONFIG
+#define scrollSpeed 90 //Speed of scrolling
+#define displays 4 //number of 8x8 displays (max 8 (based on my code (can surely be improved))
+#define displayBrightness 5 //0-15
+
+// text to display as array
+int displayText[] = {G, D, S, n1, _, I, n, f, o, r, m, a, t, i, k, _, i, s, t, _, c, o, o, l, _, _, _, _};
+//int displayText[] = {_BracketO, _, _Dot,_Underscore, _Dot, _BracketC, _,_,_};
 //int displayText[] = {_Heart};
+
+//END OF CONFIG
+
+
 
 DigitalOut cs(PC_1);
 DigitalOut clk(PC_2);
@@ -87,6 +104,10 @@ DigitalOut din(PC_0);
 uint16_t shutdown = 0x0C01;
 uint16_t displayTest = 0x0F00;
 uint16_t scanLimit = 0x0B07;
+uint8_t brightness = 0x0A;
+
+uint64_t writeData[32];
+int countLetter = 0;
 
 
 unsigned char lA[] = {0b00110000, 0b01111000, 0b11001100, 0b11001100, 0b11111100, 0b11001100, 0b11001100,
@@ -233,56 +254,84 @@ unsigned char lHeart[] = {0b01100110, 0b11111111, 0b11111111, 0b11111111, 0b0111
 
 
 
+unsigned char lAe[] = {0b11000110, 0b00111000, 0b01101100, 0b11000110, 0b11111110, 0b11000110, 0b11000110, 0b00000000};
+unsigned char lae[] = {0b11001100, 0b00000000, 0b01111000, 0b00001100, 0b01111100, 0b11001100, 0b01111110, 0b00000000};
+unsigned char lOe[] = {0b11000011, 0b00011000, 0b00111100, 0b01100110, 0b01100110, 0b00111100, 0b00011000, 0b00000000};
+unsigned char loe[] = {0b00000000, 0b11001100, 0b00000000, 0b01111000, 0b11001100, 0b11001100, 0b01111000, 0b00000000};
+unsigned char lUe[] = {0b11001100, 0b00000000, 0b11001100, 0b11001100, 0b11001100, 0b11001100, 0b01111000, 0b00000000};
+unsigned char lue[] = {0b00000000, 0b11001100, 0b00000000, 0b11001100, 0b11001100, 0b11001100, 0b01111110, 0b00000000};
 
 
 unsigned char *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, lO, lP, lQ, lR, lS, lT, lU, lV, lW,
                              lX, lY, lZ, la, lb, lc, ld, le, lf, lg, lh, li, lj, lk, ll, lm, ln, lo, lp, lq, lr, ls, lt,
                              lu, lv, lw, lx, ly, lz, l0, l1, l2, l3, l4, l5, l6, l7, l8, l9, l_, lBracketO,
-                             lBracketC, lDot, lUnderscore, lDash, lHeart};
-
-
-int writeData[16];
-int countLetter = 0;
+                             lBracketC, lDot, lUnderscore, lDash, lHeart, lAe, lae, lOe, loe, lUe, lue};
 
 
 void output(uint16_t data) {
-    cs = 0;
     for (int ii = 0; ii < 16; ii++) {
         din = (data >> (15 - ii)) & 1;
         clk = 1;
         clk = 0;
     }
-    cs = 1;
 
 }
 
 
 int main() {
-
-    output(shutdown);
-    output(displayTest);
-    output(scanLimit);
-
-
-    for (int ii = 0; ii < 8; ii++) {
-        writeData[ii] = Alphabet[displayText[0]][ii];
+    //display initialization
+    cs = 0;
+    for (int ii = 0; ii < displays; ii++) {
+        output(shutdown);
     }
-    countLetter++;
+    cs = 1;
+    cs = 0;
+    for (int ii = 0; ii < displays; ii++) {
+        output(displayTest);
+    }
+    cs = 1;
+    cs = 0;
+    for (int ii = 0; ii < displays; ii++) {
+        output(scanLimit);
+    }
+    cs = 1;
+    cs = 0;
+    for (int ii = 0; ii < displays; ii++) {
+        output(brightness << 8 | displayBrightness);
+    }
+    cs = 1;
+
+
+    //display first letter of text
+    for (int ii = 0; ii < 8; ii++) {
+        writeData[ii] = (Alphabet[displayText[0]][ii]);
+    }
 
 
     while (true) {
+        //increase letter count every 8 bits shifted
+        countLetter++;
+
+        //reset letter counter if max is reached
         if (countLetter >= sizeof(displayText) / sizeof(displayText[0])) {
             countLetter = 0;
         }
 
 
+
+        //8 (bits) = 1 letter
         for (int ii = 0; ii < 8; ii++) {
 
+            //output all 8 data packets per display
             for (int jj = 0; jj < 8; jj++) {
+                cs = 0;
+                for (int kk = 0; kk < displays; kk++) {
+                    uint16_t outputData = ((jj + 1) << (8)) | ((writeData[jj] >> (8 * ((displays - 1) - kk))) & 0xFF);
+                    output(outputData);
+                }
+                cs = 1;
 
-                uint16_t writeData2 = ((jj + 1) << 8) | (writeData[jj] & 0xFF);
-                output(writeData2);
-
+                //only if displaying 1 letter (no scrolling)
                 if (sizeof(displayText) / sizeof(displayText[0]) > 1) {
                     writeData[jj] =
                             (writeData[jj] << 1) | (((Alphabet[displayText[countLetter]][jj]) >> (8 - ii)) & 0x01);
@@ -291,10 +340,7 @@ int main() {
 
             }
             thread_sleep_for(scrollSpeed);
-
-
         }
-        countLetter++;
 
 
     }
