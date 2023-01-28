@@ -89,7 +89,7 @@
 #define displayBrightness 5 //0-15
 
 // text to display as array
-int displayText[] = {G, D, S, n1, _, I, n, f, o, r, m, a, t, i, k, _, i, s, t, _, c, o, o, l, _, _, _, _};
+int displayText[] = {G, D, S, n1, _, I, n, f, o, r, m, a, t, i, k, _, i, s, t, _, t,o,l,l,_,_Heart, _, _, _, _};
 //int displayText[] = {_BracketO, _, _Dot,_Underscore, _Dot, _BracketC, _,_,_};
 //int displayText[] = {_Heart};
 
@@ -334,7 +334,7 @@ int main() {
                 //only if displaying 1 letter (no scrolling)
                 if (sizeof(displayText) / sizeof(displayText[0]) > 1) {
                     writeData[jj] =
-                            (writeData[jj] << 1) | (((Alphabet[displayText[countLetter]][jj]) >> (8 - ii)) & 0x01);
+                            (writeData[jj] << 1) | (((Alphabet[displayText[countLetter]][jj]) >> (7 - ii)) & 0x01);
                 }
 
 
