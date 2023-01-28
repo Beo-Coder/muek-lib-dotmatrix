@@ -340,7 +340,7 @@ int main() {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < displays; j++) {
             if (reverseDisplay) {
-                writeData[j][i] = reverseByte(Alphabet[displayText[displays-1-j]][7 - i]);
+                writeData[j][i] = reverseByte(Alphabet[displayText[displays - 1 - j]][7 - i]);
             } else {
                 writeData[j][i] = (Alphabet[displayText[j]][i]);
             }
@@ -375,22 +375,20 @@ int main() {
                 }
                 cs = 1;
 
-                //only if displaying 1 letter (no scrolling)
-
                 if (scrollEnable && !reverseDisplay) {
                     for (int k = 0; k < displays - 1; k++) {
                         writeData[k][j] = (writeData[k][j] << 1) | ((writeData[k + 1][j] & 0x80) >> 7);
                     }
-                    writeData[3][j] = (writeData[3][j] << 1) | (((Alphabet[displayText[countLetter]][j])
-                            >> (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x01);
+                    writeData[displays - 1][j] = (writeData[displays - 1][j] << 1) |
+                                                 (((Alphabet[displayText[countLetter]][j])
+                                                         >> (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x01);
                 } else if (scrollEnable && reverseDisplay) {
                     for (int k = 0; k < displays - 1; k++) {
                         writeData[displays - 1 - k][j] = (writeData[displays - 1 - k][j] >> 1) |
                                                          ((writeData[displays - 1 - k - 1][j] & 0x01) << 7);
                     }
-                    writeData[0][j] =
-                            (writeData[0][j] >> 1) | (((reverseByte(Alphabet[displayText[countLetter]][7 - j]))
-                                    << (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x80);
+                    writeData[0][j] = (writeData[0][j] >> 1) | ((reverseByte(Alphabet[displayText[countLetter]][7 - j])
+                            << (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x80);
 
                 }
 
