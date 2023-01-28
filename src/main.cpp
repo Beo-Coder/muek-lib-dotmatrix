@@ -1,3 +1,5 @@
+// Copyright (c) 2023. Leonhard Baschang
+
 #include "mbed.h"
 
 /*
@@ -54,11 +56,13 @@
  */
 
 //BEGIN OF CONFIG
-#define scrollSpeed 50 //Speed of scrolling
-#define displays 4 //number of 8x8 displays (max 8 (based on my code (can surely be improved))
-#define displayBrightness 5 //0-15
+unsigned int scrollSpeed = 50;//Speed of scrolling
+const unsigned int displays = 4;//number of 8x8 displays
+unsigned int displayBrightness = 5;//0-15
+bool scrollEnable = true;
+bool reverseDisplay = false;
 
-string inputText = "GDS1 Informatik ist das beste Profilfach der Schule!";// text to display
+string inputText = "GDS1 Informatik ist das beste Profilfach der Schule!% % % ";// text to display
 //END OF CONFIG
 
 
@@ -72,7 +76,7 @@ uint16_t displayTestMode = 0x0F00;
 uint16_t scanLimitMode = 0x0B07;
 uint8_t brightnessAddress = 0x0A;
 
-uint64_t writeData[8];
+uint8_t writeData[displays][8];
 unsigned int countLetter = 0;
 
 unsigned int displayText[500];
@@ -255,7 +259,8 @@ string specialCharSeries = "AaOoUuH 1|";
 uint8_t *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, lO, lP, lQ, lR, lS, lT, lU, lV, lW,
                        lX, lY, lZ, la, lb, lc, ld, le, lf, lg, lh, li, lj, lk, ll, lm, ln, lo, lp, lq, lr, ls, lt,
                        lu, lv, lw, lx, ly, lz, l0, l1, l2, l3, l4, l5, l6, l7, l8,
-                       l9, l_small, lBracketO, lBracketC, lDot, lComma, lUnderscore, lDash,lQuestionMark,lExclamationMark, lAe, lae, lOe, loe, lUe,
+                       l9, l_small, lBracketO, lBracketC, lDot, lComma, lUnderscore, lDash, lQuestionMark,
+                       lExclamationMark, lAe, lae, lOe, loe, lUe,
                        lue,
                        lHeart, l_, l_single, l_double, l_triple, lLine};
 
@@ -319,6 +324,12 @@ void initDisplays() {
 
 }
 
+uint8_t reverseByte(uint8_t byte) {
+    byte = (byte & 0xF0) >> 4 | (byte & 0x0F) << 4;
+    byte = (byte & 0xCC) >> 2 | (byte & 0x33) << 2;
+    byte = (byte & 0xAA) >> 1 | (byte & 0x55) << 1;
+    return byte;
+}
 
 int main() {
     initDisplays();
@@ -327,8 +338,18 @@ int main() {
 
     //display first letter of text
     for (int i = 0; i < 8; i++) {
-        writeData[i] = (Alphabet[displayText[0]][i]);
+        for (int j = 0; j < displays; j++) {
+            if (reverseDisplay) {
+                writeData[j][i] = reverseByte(Alphabet[displayText[displays-1-j]][7 - i]);
+            } else {
+                writeData[j][i] = (Alphabet[displayText[j]][i]);
+            }
+
+
+        }
+
     }
+    countLetter = displays - 1;
 
 
     while (true) {
@@ -349,15 +370,27 @@ int main() {
             for (int j = 0; j < 8; j++) {
                 cs = 0;
                 for (int k = 0; k < displays; k++) {
-                    uint16_t outputData = ((j + 1) << (8)) | ((writeData[j] >> (8 * ((displays - 1) - k))) & 0xFF);
+                    uint16_t outputData = ((j + 1) << (8)) | ((writeData[k][j]) & 0xFF);
                     output(outputData);
                 }
                 cs = 1;
 
                 //only if displaying 1 letter (no scrolling)
-                if (displayTextSize > 1) {
-                    writeData[j] = (writeData[j] << 1) | (((Alphabet[displayText[countLetter]][j])
+
+                if (scrollEnable && !reverseDisplay) {
+                    for (int k = 0; k < displays - 1; k++) {
+                        writeData[k][j] = (writeData[k][j] << 1) | ((writeData[k + 1][j] & 0x80) >> 7);
+                    }
+                    writeData[3][j] = (writeData[3][j] << 1) | (((Alphabet[displayText[countLetter]][j])
                             >> (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x01);
+                } else if (scrollEnable && reverseDisplay) {
+                    for (int k = 0; k < displays - 1; k++) {
+                        writeData[displays - 1 - k][j] = (writeData[displays - 1 - k][j] >> 1) |
+                                                         ((writeData[displays - 1 - k - 1][j] & 0x01) << 7);
+                    }
+                    writeData[0][j] =
+                            (writeData[0][j] >> 1) | (((reverseByte(Alphabet[displayText[countLetter]][7 - j]))
+                                    << (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x80);
 
                 }
 
