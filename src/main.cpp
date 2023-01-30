@@ -376,17 +376,21 @@ int main() {
                 cs = 1;
 
                 if (scrollEnable && !reverseDisplay) {
+                    //Load next bit from previous Module
                     for (int k = 0; k < displays - 1; k++) {
                         writeData[k][j] = (writeData[k][j] << 1) | ((writeData[k + 1][j] & 0x80) >> 7);
                     }
+                    //Load next bit from array
                     writeData[displays - 1][j] = (writeData[displays - 1][j] << 1) |
                                                  (((Alphabet[displayText[countLetter]][j])
                                                          >> (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x01);
                 } else if (scrollEnable && reverseDisplay) {
+                    //Load next bit from previous Module
                     for (int k = 0; k < displays - 1; k++) {
                         writeData[displays - 1 - k][j] = (writeData[displays - 1 - k][j] >> 1) |
                                                          ((writeData[displays - 1 - k - 1][j] & 0x01) << 7);
                     }
+                    //Load next bit from array
                     writeData[0][j] = (writeData[0][j] >> 1) | ((reverseByte(Alphabet[displayText[countLetter]][7 - j])
                             << (Alphabet[displayText[countLetter]][8] - 1 - i)) & 0x80);
 
