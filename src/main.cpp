@@ -1,5 +1,5 @@
 // Copyright (c) 2023. Leonhard Baschang
-//https://github.com/LeoCoder-Maker/mueh-8x8_LED_Dot_Matrix_ScrollText.git
+//https://github.com/LeoCoder-Maker/muehk-8x8_LED_Dot_Matrix_ScrollText.git
 
 #include "mbed.h"
 
