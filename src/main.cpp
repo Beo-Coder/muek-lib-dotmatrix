@@ -77,11 +77,8 @@ string inputText = "GDS1 Informatik ist das beste Profilfach der Schule %H% % % 
 int main() {
 
     DOTMATRIX matrix(PC_2, PC_0, PC_1, displays, reverseDisplay);
-    matrix.setShutdownMode();
-    matrix.setDisplayTest();
-    matrix.setDecodeMode();
-    matrix.setScanLimit();
-    matrix.setIntensity(-1,displayBrightness);
+    matrix.initDisplays();
+    matrix.setIntensity(-1, displayBrightness);
     matrix.createIDArray(inputText);
 
     while(true){
