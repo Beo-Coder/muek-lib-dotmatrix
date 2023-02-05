@@ -43,7 +43,6 @@ class DOTMATRIX {
 
 
 private:
-    void sendByte(uint8_t address, uint8_t data);
 
     void addLetter(unsigned int letterId);
 
@@ -76,6 +75,8 @@ public:
     void shiftText();
 
     void update();
+
+    void sendByte(uint8_t address, uint8_t data);
 };
 
 #endif //UNTITLED5_DOTMATRIX_H

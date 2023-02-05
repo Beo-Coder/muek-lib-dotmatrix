@@ -88,6 +88,12 @@
 #### Shift Text 1 bit to the left
 `matrix.shiftText();`
 
+#### Send raw data to display
+`matrix.sendByte(<address>, <data>);`
+
+- **address**: address of register (see MAX7219 datasheet)
+- **data**: data to load in the register (see MAX7219 datasheet)
+
 
 ## Usage of text input
 Decode table (input -> output (on display))
