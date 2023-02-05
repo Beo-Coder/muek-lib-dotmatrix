@@ -1,5 +1,5 @@
 // Copyright (c) 2023. Leonhard Baschang
-// https://github.com/LeoCoder-Maker/muehk-8x8_LED_Dot_Matrix_ScrollText.git
+// https://github.com/LeoCoder-Maker/muehk-lib-dotmatrix.git
 #include "mbed.h"
 #include "DOTMATRIX.h"
 
