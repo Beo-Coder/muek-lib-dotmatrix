@@ -61,12 +61,12 @@
 
 
 //BEGIN OF CONFIG
-unsigned int scrollSpeed = 50;//Speed of scrolling
-const unsigned int displays = 4;//number of 8x8 displays
+unsigned int scrollSpeed = 40;//Speed of scrolling
+const unsigned int displays = 26;//number of 8x8 displays
 unsigned int displayBrightness = 5;//0-15
 bool reverseDisplay = false;
 
-string inputText = "GDS1 Informatik ist das beste Profilfach der Welt.% % ";// text to display
+string inputText = "GDS1 Informatik ist das beste Profilfach der Schule %H% % % % % ";// text to display
 //END OF CONFIG
 
 
