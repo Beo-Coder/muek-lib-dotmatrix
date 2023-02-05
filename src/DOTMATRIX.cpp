@@ -1,3 +1,4 @@
+// Copyright (c) 2023. Leonhard Baschang
 #include "DOTMATRIX.h"
 
 DOTMATRIX::DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int numberDisplays, bool reverseText) {

@@ -1,4 +1,4 @@
-
+// Copyright (c) 2023. Leonhard Baschang
 #ifndef UNTITLED5_DOTMATRIX_H
 #define UNTITLED5_DOTMATRIX_H
 
