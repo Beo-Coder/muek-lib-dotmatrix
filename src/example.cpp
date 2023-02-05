@@ -1,5 +1,5 @@
 // Copyright (c) 2023. Leonhard Baschang
-// https://github.com/LeoCoder-Maker/muehk-lib-dotmatrix.git
+// https://github.com/Beo-Coder/muehk-lib-dotmatrix.git
 #include "mbed.h"
 #include "DOTMATRIX.h"
 
