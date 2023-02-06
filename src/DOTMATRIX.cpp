@@ -184,9 +184,8 @@ uint8_t *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, l
 
 
 DOTMATRIX::DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int numberDisplays, bool reverseText) {
-    clk = new DigitalOut(clkPin);
     cs = new DigitalOut(csPin);
-    din = new DigitalOut(dinPin);
+    spi= new SPI(dinPin, NC, clkPin);
 
     displays = numberDisplays;
     reverseDisplay = reverseText;
@@ -209,12 +208,8 @@ uint8_t reverseByte(uint8_t byte) {
 
 
 void DOTMATRIX::sendByte(uint8_t address, uint8_t data) {
-    uint16_t sendData = (address << 8) | data;
-    for (int i = 0; i < 16; i++) {
-        din->write((sendData >> (15 - i)) & 1);
-        clk->write(1);
-        clk->write(0);
-    }
+    spi->write(address);
+    spi->write(data);
 }
 
 

@@ -29,10 +29,10 @@
 
 class DOTMATRIX {
     DigitalOut *cs;
-    DigitalOut *din;
-    DigitalOut *clk;
     unsigned int displays;
     bool reverseDisplay;
+
+    SPI *spi;
 
     uint8_t displayData[MAX_DISPLAYS][8]{};
     unsigned int displayDataLetterNumber;

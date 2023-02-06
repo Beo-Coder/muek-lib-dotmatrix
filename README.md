@@ -15,8 +15,8 @@
 
 `DOTMATRIX matrix(<clkPin>, <dinPin>, <csPin>, <number of displays>, <reverse displays>);`
 - **matrix**: name of choice.
-- **clkPin**: pin on which the clk pin of the first display is connected (e.g. `PC_2`)
-- **dinPin**: pin on which the din pin of the first display is connected (e.g. `PC_0`)
+- **clkPin**: pin on which the clk pin of the first display is connected. Must be a SPI sclk (e.g. `PB_13`)
+- **dinPin**: pin on which the din pin of the first display is connected. Must be a SPI mosi (e.g. `PB_15`)
 - **csPin**: pin on which the cs pin of the first display is connected (e.g. `PC_1`)
 - **number of displays**: number of displays connected in series (e.g. `4`)
 - **reverse displays**: whether the displays are mounted upside down (e.g. `false`)
