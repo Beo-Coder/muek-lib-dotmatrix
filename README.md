@@ -1,5 +1,5 @@
 # DOTMATRIX
-## MBED libary for MAX7219 driven 8x8 LED dot matrixes
+## MBED library for MAX7219 driven 8x8 LED dot matrix's
 
 # Features
 - Multiple display support
@@ -150,5 +150,10 @@ main(){
 ```
 
 ## Limitations
-* By default only support up to 50 displays (can be changed in DOTMATRIX.h)
-* By default maximum text length is 500 characters (can be changed in DOTMATRIX.h)
+* By default, only support up to 50 displays (can be changed in DOTMATRIX.h)
+* By default, maximum text length is 500 characters (can be changed in DOTMATRIX.h)
+
+
+## Notes
+* Tested on NUCLEO-L152RE (STM32)
+* Tested with up to 26 displays
