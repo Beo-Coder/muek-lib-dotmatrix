@@ -185,7 +185,7 @@ uint8_t *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, l
 
 DOTMATRIX::DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int numberDisplays, bool reverseText) {
     cs = new DigitalOut(csPin);
-    spi= new SPI(dinPin, NC, clkPin);
+    spi = new SPI(dinPin, NC, clkPin);
 
     displays = numberDisplays;
     reverseDisplay = reverseText;
@@ -196,7 +196,6 @@ DOTMATRIX::DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int
 
 
 }
-
 
 
 uint8_t reverseByte(uint8_t byte) {
@@ -213,6 +212,19 @@ void DOTMATRIX::sendByte(uint8_t address, uint8_t data) {
 }
 
 
+void DOTMATRIX::sendByteSingleDisplay(unsigned int displayNumber, uint8_t address, uint8_t data){
+    for (unsigned int j = displayNumber+1; j <= displays; j++) {
+        sendByte(NO_OP_ADDRESS, 0x00);
+    }
+
+    sendByte(address, data);
+
+    for (unsigned int j = 0; j < displayNumber; j++) {
+        sendByte(NO_OP_ADDRESS, 0x00);
+    }
+}
+
+
 void DOTMATRIX::allDisplaysSend(uint8_t address, uint8_t data) {
     cs->write(0);
     for (unsigned int i = 0; i < displays; i++) {
@@ -220,6 +232,9 @@ void DOTMATRIX::allDisplaysSend(uint8_t address, uint8_t data) {
     }
     cs->write(1);
 }
+
+
+
 
 void DOTMATRIX::setShutdownMode(int displayNumber, bool shutdown) {
     uint8_t shutdownData;
@@ -232,13 +247,7 @@ void DOTMATRIX::setShutdownMode(int displayNumber, bool shutdown) {
         allDisplaysSend(SHUTDOWN_MODE_ADDRESS, shutdownData);
     } else {
         cs->write(0);
-        for (int i = 0; i <= displayNumber; i++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
-        sendByte(SHUTDOWN_MODE_ADDRESS, shutdownData);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
+        sendByteSingleDisplay(displayNumber, SHUTDOWN_MODE_ADDRESS, shutdownData);
         cs->write(1);
     }
 }
@@ -248,13 +257,7 @@ void DOTMATRIX::setScanLimit(int displayNumber, int scanLimit) {
         allDisplaysSend(SCAN_LIMIT_ADDRESS, scanLimit);
     } else {
         cs->write(0);
-        for (int i = 0; i <= displayNumber; i++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
-        sendByte(SCAN_LIMIT_ADDRESS, scanLimit);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
+        sendByteSingleDisplay(displayNumber, SCAN_LIMIT_ADDRESS, scanLimit);
         cs->write(1);
     }
 }
@@ -264,13 +267,7 @@ void DOTMATRIX::setDecodeMode(int displayNumber, int decodeMode) {
         allDisplaysSend(DECODE_MODE_ADDRESS, decodeMode);
     } else {
         cs->write(0);
-        for (int i = 0; i <= displayNumber; i++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
-        sendByte(DECODE_MODE_ADDRESS, decodeMode);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
+        sendByteSingleDisplay(displayNumber, DECODE_MODE_ADDRESS, decodeMode);
         cs->write(1);
     }
 }
@@ -283,13 +280,7 @@ void DOTMATRIX::setIntensity(int displayNumber, unsigned int intensity) {
         allDisplaysSend(INTENSITY_ADDRESS, intensity);
     } else {
         cs->write(0);
-        for (int i = 0; i <= displayNumber; i++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
-        sendByte(INTENSITY_ADDRESS, intensity);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
+        sendByteSingleDisplay(displayNumber, INTENSITY_ADDRESS, intensity);
         cs->write(1);
     }
 }
@@ -305,13 +296,7 @@ void DOTMATRIX::setDisplayTest(int displayNumber, bool testMode) {
         allDisplaysSend(DISPLAY_TEST_ADDRESS, testModeData);
     } else {
         cs->write(0);
-        for (int i = 0; i <= displayNumber; i++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
-        sendByte(DISPLAY_TEST_ADDRESS, testModeData);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
+        sendByteSingleDisplay(displayNumber, DISPLAY_TEST_ADDRESS, testModeData);
         cs->write(1);
     }
 }
@@ -320,14 +305,12 @@ void DOTMATRIX::displayBitPattern(int displayNumber, uint8_t (*pattern)[8]) {
 
     for (int i = 0; i < 8; i++) {
         cs->write(0);
-        for (int j = 0; j <= displayNumber; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
+        if (reverseDisplay) {
+            sendByteSingleDisplay(displayNumber, i + 1, (*pattern)[i]);
+        } else {
+            sendByteSingleDisplay(displayNumber, i + 1, reverseByte((*pattern)[7 - i]));
         }
 
-        sendByte(i + 1, (*pattern)[i]);
-        for (unsigned int j = displayNumber + 1; j < displays; j++) {
-            sendByte(NO_OP_ADDRESS, 0x00);
-        }
         cs->write(1);
     }
 
@@ -427,7 +410,7 @@ void DOTMATRIX::update() {
     }
 }
 
-void DOTMATRIX::initDisplays(){
+void DOTMATRIX::initDisplays() {
     setShutdownMode();
     setDisplayTest();
     setDecodeMode();

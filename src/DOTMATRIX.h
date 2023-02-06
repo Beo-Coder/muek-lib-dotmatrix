@@ -46,6 +46,8 @@ private:
 
     void addLetter(unsigned int letterId);
 
+    void sendByteSingleDisplay(unsigned int displayNumber, uint8_t address, uint8_t data);
+
 
 public:
     DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int numberDisplays, bool reverseText);

@@ -12,7 +12,6 @@ bool reverseDisplay = false;
 string inputText = " GDS1 Informatik ist das beste Profilfach der Schule %H% % % % % ";// text to display
 //END OF CONFIG
 
-
 int main() {
 
     DOTMATRIX matrix(PB_13, PB_15, PC_1, displays, reverseDisplay);
