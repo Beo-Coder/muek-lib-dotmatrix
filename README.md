@@ -21,22 +21,29 @@
 - **number of displays**: number of displays connected in series (e.g. `4`)
 - **reverse displays**: whether the displays are mounted upside down (e.g. `false`)
 
+<br/>
 
 #### Initialize displays:
 
 `matrix.initDisplays();`
+Sets all displays to default mode (on, no test, normal decode, all 8 digits decode, intensity to 15)
 
+<br/>
 
 #### Set scrolling text:
 
 `matrix.createIDArray(<text>);`
--	**text**: Text that will be displayed 
+-	**text**: Text that will be displayed
 
+<br/>
 
 #### Update scrolling text:
 
 `matrix.update();`
+Makes a shiftText() and displayBitPatternAll()\
+Also when the last letter is displayed, start from the beginning
 
+<br/>
 
 ## Advanced usage
 #### Set shutdown mode:
@@ -45,6 +52,7 @@
 - **displayNumber**: number of display (`-1` for all displays)
 - **shutdown**: `true`or `false`
 
+<br/>
 
 #### Set scan limit:
 `matrix.setScanLimit(<displayNumber>, <scanLimit>);`
@@ -52,6 +60,7 @@
 - **displayNumber**: number of display (`-1` for all displays)
 - **scanLimit**: how many lines are dispalyed (`0` -> 1 line, `7` -> all 8 lines)
 
+<br/>
 
 #### Set decode mode:
 `matrix.setDecodeMode(<displayNumber> ,<decodeMode>);`
@@ -59,11 +68,15 @@
 - **displayNumber**: number of display (`-1` for all displays)
 - **decodeMode**: how many lines are dispalyed (`0` -> 1 line, `7` -> all 8 lines)
 
+<br/>
+
 #### Set display brightness:
 `matrix.setIntensity(<displayNumber>, <intensity>);`
 
 - **displayNumber**: number of display (`-1` for all displays)
 - **intensity**: brightness of display (from `0`to `15`)
+
+<br/>
 
 #### Set display test:
 `matrix.setDisplayTest(<displayNumber>, <testMode>);`
@@ -71,22 +84,32 @@
 - **displayNumber**: number of display (`-1` for all displays)
 - **testMode**: `true`or `false`
 
+<br/>
+
 #### Set bit pattern for singe display:
 `matrix.displayBitPattern(<displayNumber>, <pattern>);`
 
 - **displayNumber**: number of display
 - **pattern**: address of uint8_t array with 8 elemnts (e.g. `&letterA`)
 
+<br/>
+
 #### Set bit pattern for all displays:
 `matrix.displayBitPatternAll(<pattern>);`
 
 - **pattern**: address of two dimesional uint8_t array with 8 elemnts per display (e.g. `&textABC`)
 
+<br/>
+
 #### Load next bits of text
 `matrix.loadNextTextBits();`
 
+<br/>
+
 #### Shift Text 1 bit to the left
 `matrix.shiftText();`
+
+<br/>
 
 #### Send raw data to display
 `matrix.sendByte(<address>, <data>);`
@@ -94,6 +117,7 @@
 - **address**: address of register (see MAX7219 datasheet)
 - **data**: data to load in the register (see MAX7219 datasheet)
 
+<br/>
 
 ## Usage of text input
 Decode table (input -> output (on display))
