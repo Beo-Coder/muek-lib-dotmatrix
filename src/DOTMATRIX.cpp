@@ -145,8 +145,8 @@ uint8_t lUnderscore[] = {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000
                          0b01111110, 8}; // _
 uint8_t lDash[] = {0b00000000, 0b00000000, 0b00000000, 0b01111110, 0b01111110, 0b00000000, 0b00000000, 0b00000000,
                    8}; // -
-uint8_t lColon[] = {0b00000000, 0b00000000, 0b00011000, 0b00011000, 0b00000000, 0b00000000, 0b00011000, 0b00011000,
-                   8}; // :
+uint8_t lColon[] = {0b00011000, 0b00011000, 0b00000000, 0b00000000, 0b00011000, 0b00011000, 0b00000000, 0b00000000,
+                    8}; // :
 
 
 uint8_t lHeart[] = {0b01100110, 0b11111111, 0b11111111, 0b11111111, 0b01111110, 0b00111100, 0b00011000,
@@ -216,8 +216,8 @@ void DOTMATRIX::sendByte(uint8_t address, uint8_t data) {
 }
 
 
-void DOTMATRIX::sendByteSingleDisplay(unsigned int displayNumber, uint8_t address, uint8_t data){
-    for (unsigned int j = displayNumber+1; j <= displays; j++) {
+void DOTMATRIX::sendByteSingleDisplay(unsigned int displayNumber, uint8_t address, uint8_t data) {
+    for (unsigned int j = displayNumber + 1; j <= displays; j++) {
         sendByte(NO_OP_ADDRESS, 0x00);
     }
 
@@ -236,8 +236,6 @@ void DOTMATRIX::allDisplaysSend(uint8_t address, uint8_t data) {
     }
     cs->write(1);
 }
-
-
 
 
 void DOTMATRIX::setShutdownMode(int displayNumber, bool shutdown) {
@@ -356,6 +354,7 @@ void DOTMATRIX::createIDArray(string text) {
     }
 
 }
+
 void DOTMATRIX::clearIDArray() {
     memset(idArray, 0, sizeof(idArray));
     idArraySize = 0;
