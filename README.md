@@ -123,6 +123,13 @@ returns `true` if text starts from the beginning
 
 <br/>
 
+#### Reset display:
+`matrix.resetDisplay();`
+
+Resets the current displaying text back to the beginning
+
+<br/>
+
 #### Send raw data to display
 `matrix.sendByte(<address>, <data>);`
 

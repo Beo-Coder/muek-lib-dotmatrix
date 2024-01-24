@@ -80,6 +80,8 @@ public:
 
     bool update();
 
+    void resetDisplay();
+
     void sendByte(uint8_t address, uint8_t data);
 };
 

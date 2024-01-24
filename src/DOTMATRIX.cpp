@@ -422,6 +422,11 @@ bool DOTMATRIX::update() {
     return false;
 }
 
+void DOTMATRIX::resetDisplay() {
+    displayDataLetterNumber = 0;
+    displayDataLetterBit = 0;
+}
+
 void DOTMATRIX::initDisplays() {
     setShutdownMode();
     setDisplayTest();
@@ -429,5 +434,7 @@ void DOTMATRIX::initDisplays() {
     setScanLimit();
     setIntensity();
 }
+
+
 
 
