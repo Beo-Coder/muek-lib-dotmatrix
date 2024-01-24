@@ -26,6 +26,7 @@
 #### Initialize displays:
 
 `matrix.initDisplays();`
+
 Sets all displays to default mode (on, no test, normal decode, all 8 digits decode, intensity to 15)
 
 <br/>
