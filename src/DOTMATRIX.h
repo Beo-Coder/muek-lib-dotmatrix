@@ -72,6 +72,8 @@ public:
 
     void createIDArray(string text);
 
+    void clearIDArray();
+
     void loadNextTextBits();
 
     void shiftText();

@@ -352,6 +352,10 @@ void DOTMATRIX::createIDArray(string text) {
     }
 
 }
+void DOTMATRIX::clearIDArray() {
+    memset(idArray, 0, sizeof(idArray));
+    idArraySize = 0;
+}
 
 void DOTMATRIX::loadNextTextBits() {
     if (reverseDisplay) {
@@ -417,3 +421,5 @@ void DOTMATRIX::initDisplays() {
     setScanLimit();
     setIntensity();
 }
+
+
