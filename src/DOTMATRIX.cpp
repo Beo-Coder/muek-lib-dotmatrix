@@ -153,7 +153,7 @@ uint8_t lHeart[] = {0b01100110, 0b11111111, 0b11111111, 0b11111111, 0b01111110, 
                     0b00000000, 8}; // <3
 
 uint8_t lSmiley[] = {0b00111100, 0b01000010, 0b10100101, 0b10000001, 0b10100101, 0b10011001, 0b01000010,
-                    0b001111000, 8}; // :)
+                     0b00111100, 8}; // :)
 
 
 
@@ -187,7 +187,7 @@ uint8_t *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, l
                        l9, l_small, lBracketO, lBracketC, lDot, lComma, lUnderscore, lDash, lQuestionMark,
                        lExclamationMark, lColon, lAe, lae, lOe, loe, lUe,
                        lue,
-                       lHeart,lSmiley, l_, l_single, l_double, l_triple, lLine};
+                       lHeart, lSmiley, l_, l_single, l_double, l_triple, lLine};
 
 
 DOTMATRIX::DOTMATRIX(PinName clkPin, PinName dinPin, PinName csPin, unsigned int numberDisplays, bool reverseText) {
