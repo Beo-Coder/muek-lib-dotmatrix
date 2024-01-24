@@ -37,9 +37,19 @@ Sets all displays to default mode (on, no test, normal decode, all 8 digits deco
 
 <br/>
 
+#### Clear scrolling text:
+
+`matrix.clearIDArray();`
+
+Should be called before matrix.createIDArray(<text>) to clear buffer.
+
+
+<br/>
+
 #### Update scrolling text:
 
 `matrix.update();`
+
 Makes a shiftText() and displayBitPatternAll()\
 Also when the last letter is displayed, start from the beginning
 
