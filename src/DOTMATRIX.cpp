@@ -145,6 +145,10 @@ uint8_t lUnderscore[] = {0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000
                          0b01111110, 8}; // _
 uint8_t lDash[] = {0b00000000, 0b00000000, 0b00000000, 0b01111110, 0b01111110, 0b00000000, 0b00000000, 0b00000000,
                    8}; // -
+uint8_t lColon[] = {0b00000000, 0b00000000, 0b00011000, 0b00011000, 0b00000000, 0b00000000, 0b00011000, 0b00011000,
+                   8}; // :
+
+
 uint8_t lHeart[] = {0b01100110, 0b11111111, 0b11111111, 0b11111111, 0b01111110, 0b00111100, 0b00011000,
                     0b00000000, 8}; // <3
 
@@ -171,14 +175,14 @@ uint8_t l_triple[] = {0b000, 0b000, 0b000, 0b000, 0b000, 0b000, 0b000, 0b000, 3}
 uint8_t lLine[] = {0b1, 0b1, 0b1, 0b1, 0b1, 0b1, 0b1, 0b1, 1};
 
 
-string alphabetSeries = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ().,_-?!";
+string alphabetSeries = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ().,_-?!:";
 string specialCharSeries = "AaOoUuH 123|";
 
 uint8_t *Alphabet[] = {lA, lB, lC, lD, lE, lF, lG, lH, lI, lJ, lK, lL, lM, lN, lO, lP, lQ, lR, lS, lT, lU, lV, lW,
                        lX, lY, lZ, la, lb, lc, ld, le, lf, lg, lh, li, lj, lk, ll, lm, ln, lo, lp, lq, lr, ls, lt,
                        lu, lv, lw, lx, ly, lz, l0, l1, l2, l3, l4, l5, l6, l7, l8,
                        l9, l_small, lBracketO, lBracketC, lDot, lComma, lUnderscore, lDash, lQuestionMark,
-                       lExclamationMark, lAe, lae, lOe, loe, lUe,
+                       lExclamationMark, lColon, lAe, lae, lOe, loe, lUe,
                        lue,
                        lHeart, l_, l_single, l_double, l_triple, lLine};
 

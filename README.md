@@ -154,6 +154,7 @@ _ -> _
 \- -> -  
 ? -> ?  
 ! -> !  
+: -> :
 
 #### Special character (with `%` in front (e.g. `%A` -> Ä))
 A -> Ä  
