@@ -169,6 +169,7 @@ a -> ä
 | -> *one filled vertical line*  
 
 H -> *Heart symbol*  
+S -> *Smiley face*
 
 
 
