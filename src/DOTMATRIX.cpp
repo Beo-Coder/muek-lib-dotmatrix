@@ -403,15 +403,17 @@ void DOTMATRIX::shiftText() {
 
 }
 
-void DOTMATRIX::update() {
+bool DOTMATRIX::update() {
     shiftText();
     displayBitPatternAll(&displayData);
 
     if (displayDataLetterNumber >= idArraySize) {
         displayDataLetterNumber = 0;
         displayDataLetterBit = 0;
+        return true;
 
     }
+    return false;
 }
 
 void DOTMATRIX::initDisplays() {

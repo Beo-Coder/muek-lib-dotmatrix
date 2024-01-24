@@ -52,7 +52,8 @@ Should be called before matrix.createIDArray(<text>) to clear buffer.
 `matrix.update();`
 
 Makes a shiftText() and displayBitPatternAll()\
-Also when the last letter is displayed, start from the beginning
+Also when the last letter is displayed, start from the beginning\
+returns `true` if text starts from the beginning
 
 <br/>
 
